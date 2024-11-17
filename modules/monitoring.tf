@@ -7,7 +7,6 @@ resource "aws_cloudtrail" "main_trail" {
 
 resource "aws_s3_bucket" "cloudtrail_bucket" {
   bucket = "my-cloudtrail-logs-bucket"
-  acl    = "private"
 }
 
 resource "aws_opensearch_domain" "logs_domain" {

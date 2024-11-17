@@ -22,6 +22,13 @@ resource "aws_cloudfront_distribution" "api_distribution" {
     }
   }
 
+  # Add required restrictions block
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"  # Can be "whitelist", "blacklist", or "none"
+    }
+  }
+
   viewer_certificate {
     cloudfront_default_certificate = true
   }

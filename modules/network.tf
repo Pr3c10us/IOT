@@ -107,7 +107,7 @@ resource "aws_vpc_endpoint" "athena_endpoint" {
   security_group_ids    = [aws_security_group.athena_endpoint_sg.id]
   private_dns_enabled   = true
   dns_entry {
-    domain_name = "athena.${data.aws_region.current.name}.amazonaws.com"
+    dns_name = "athena.${data.aws_region.current.name}.amazonaws.com"
   }
 
   tags = {
@@ -156,7 +156,7 @@ resource "aws_vpc_endpoint" "opensearch_endpoint" {
   security_group_ids    = [aws_security_group.opensearch_endpoint_sg.id]
   private_dns_enabled   = true
   dns_entry {
-    domain_name = "search.${data.aws_region.current.name}.amazonaws.com"
+    dns_name = "search.${data.aws_region.current.name}.amazonaws.com"
   }
 
   tags = {

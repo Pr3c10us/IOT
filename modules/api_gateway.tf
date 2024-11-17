@@ -33,7 +33,6 @@ resource "aws_waf_web_acl" "api_waf" {
   }
 
   rules {
-    name     = "Rule1"
     priority = 1
     action {
       type = "BLOCK"

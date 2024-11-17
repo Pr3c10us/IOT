@@ -16,7 +16,14 @@ resource "aws_wafv2_web_acl" "waf" {
         field_to_match {
           uri_path {}
         }
-
+        text_transformation {
+          priority = 1
+          type     = "URL_DECODE"
+        }
+        text_transformation {
+          priority = 2
+          type     = "HTML_ENTITY_DECODE"
+        }
       }
     }
 
@@ -26,9 +33,15 @@ resource "aws_wafv2_web_acl" "waf" {
 
     visibility_config {
       cloudwatch_metrics_enabled = true
-      metric_name                = "BlockSQLInjection"
-      sampled_requests_enabled   = true
+      metric_name               = "BlockSQLInjection"
+      sampled_requests_enabled  = true
     }
+  }
+
+  visibility_config {
+    cloudwatch_metrics_enabled = true
+    metric_name               = "LogAPIFirewall"
+    sampled_requests_enabled  = true
   }
 }
 

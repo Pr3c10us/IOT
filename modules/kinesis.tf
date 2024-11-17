@@ -44,7 +44,7 @@ resource "aws_kinesis_firehose_delivery_stream" "firehose_opensearch" {
 # Firehose Delivery Stream to S3 and Lambda
 resource "aws_kinesis_firehose_delivery_stream" "firehose_s3_and_lambda" {
   name        = "firehose-to-s3-and-lambda"
-  destination = "s3"
+  destination = "extended_s3"
 
   kinesis_source_configuration {
     kinesis_stream_arn = aws_kinesis_stream.data_stream.arn
