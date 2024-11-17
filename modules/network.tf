@@ -103,12 +103,9 @@ resource "aws_vpc_endpoint" "athena_endpoint" {
   service_name      = "com.amazonaws.${data.aws_region.current.name}.athena"
   vpc_endpoint_type = "Interface"
 
-  subnet_ids            = aws_subnet.private_subnet[*].id
-  security_group_ids    = [aws_security_group.athena_endpoint_sg.id]
-  private_dns_enabled   = true
-  dns_entry {
-    dns_name = "athena.${data.aws_region.current.name}.amazonaws.com"
-  }
+  subnet_ids          = aws_subnet.private_subnet[*].id
+  security_group_ids  = [aws_security_group.athena_endpoint_sg.id]
+  private_dns_enabled = true
 
   tags = {
     Name        = "athena_vpc_endpoint"
@@ -152,12 +149,9 @@ resource "aws_vpc_endpoint" "opensearch_endpoint" {
   service_name      = "com.amazonaws.${data.aws_region.current.name}.es" # For OpenSearch
   vpc_endpoint_type = "Interface"
 
-  subnet_ids            = aws_subnet.private_subnet[*].id
-  security_group_ids    = [aws_security_group.opensearch_endpoint_sg.id]
-  private_dns_enabled   = true
-  dns_entry {
-    dns_name = "search.${data.aws_region.current.name}.amazonaws.com"
-  }
+  subnet_ids          = aws_subnet.private_subnet[*].id
+  security_group_ids  = [aws_security_group.opensearch_endpoint_sg.id]
+  private_dns_enabled = true
 
   tags = {
     Name        = "opensearch_vpc_endpoint"

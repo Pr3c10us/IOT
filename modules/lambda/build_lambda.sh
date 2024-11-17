@@ -1,32 +1,22 @@
 #!/bin/bash
-
-# Exit immediately if a command exits with a non-zero status
 set -e
 
-# Define variables
-LAMBDA_DIR="./lambda"
-BUILD_DIR="${LAMBDA_DIR}/build"
-ZIP_FILE="${LAMBDA_DIR}/lambda_function.zip"
+# Navigate to the lambda directory
+cd "$(dirname "$0")"
 
-# Create build directory
-mkdir -p "${BUILD_DIR}"
+# Create a temporary directory for dependencies
+mkdir -p package
 
-# Navigate to the build directory
-cd "${BUILD_DIR}"
+# Install requirements to the package directory
+pip install --target ./package -r requirements.txt
 
-# Install dependencies (if any)
-# For example, if you have a requirements.txt, uncomment the following lines:
-# if [ -f "../requirements.txt" ]; then
-#     pip install -r ../requirements.txt -t .
-# fi
+# Copy the lambda function to the package directory
+cp lambda_function.py package/
 
-# Copy the lambda_function.py to the build directory
-cp ../lambda_function.py .
+# Create the zip file
+cd package
+zip -r ../lambda_function.zip .
+cd ..
 
-# Create the ZIP file
-zip -r "${ZIP_FILE}" .
-
-# Navigate back to the original directory
-cd -
-
-echo "Lambda function packaged successfully at ${ZIP_FILE}"
+# Clean up
+rm -rf package

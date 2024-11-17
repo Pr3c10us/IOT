@@ -1,7 +1,14 @@
 # Null resource to run the build script in the lambda folder
 resource "null_resource" "build_lambda" {
+  # Add triggers to rebuild when source code changes
+  triggers = {
+    source_code_hash = filemd5("${path.module}/lambda/lambda_function.py")
+    requirements_hash = filemd5("${path.module}/lambda/requirements.txt")
+    build_script_hash = filemd5("${path.module}/lambda/build_lambda.sh")
+  }
+
   provisioner "local-exec" {
-    command     = "./lambda/build_lambda.sh"
+    command     = "chmod +x ./lambda/build_lambda.sh && ./lambda/build_lambda.sh"
     working_dir = path.module
   }
 }
