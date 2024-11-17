@@ -1,14 +1,6 @@
 # S3 Bucket for Athena Query Results
 resource "aws_s3_bucket" "athena_results" {
   bucket = "athena-query-results-${random_string.bucket_suffix.result}"
-  acl    = "private"
-}
-
-resource "random_string" "bucket_suffix" {
-  length  = 8
-  upper   = false
-  number  = true
-  special = false
 }
 
 # Athena Workgroup

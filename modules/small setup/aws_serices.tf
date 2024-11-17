@@ -123,13 +123,11 @@ resource "aws_cloudtrail" "main_trail" {
 
 resource "aws_s3_bucket" "cloudtrail_bucket" {
   bucket = "cloudtrail-logs-${random_string.bucket_suffix.result}"
-  acl    = "private"
 }
 
 resource "random_string" "bucket_suffix" {
   length  = 8
   upper   = false
-  number  = true
   special = false
 }
 
