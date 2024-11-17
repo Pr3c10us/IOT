@@ -16,12 +16,13 @@ resource "aws_dx_private_virtual_interface" "private_vif" {
   dx_gateway_id         = aws_dx_gateway.dx_gateway.id
 }
 
-# Associate DX Gateway with VPC
+# Virtual Private Gateway (VGW)
 resource "aws_vpn_gateway" "vgw" {
   vpc_id = var.vpc_id
 }
 
+# Associate DX Gateway with VGW
 resource "aws_dx_gateway_association" "dx_gw_assoc" {
   dx_gateway_id        = aws_dx_gateway.dx_gateway.id
-  vpn_gateway_id       = aws_vpn_gateway.vgw.id
+  associated_gateway_id = aws_vpn_gateway.vgw.id  # Use VGW ID here
 }

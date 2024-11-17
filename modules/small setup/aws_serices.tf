@@ -10,13 +10,22 @@ resource "aws_lambda_function" "my_lambda" {
   timeout       = 30
   vpc_config {
     security_group_ids = [var.lambda_security_group_id]
-    subnet_ids         = data.aws_subnet_ids.private.id
+    subnet_ids         =data.aws_subnets.private.ids
   }
 }
 
-data "aws_subnet_ids" "private" {
-  id = var.vpc_id
+data "aws_subnets" "private" {
+  filter {
+    name   = "vpc-id"
+    values = [var.vpc_id]
+  }
+
+  filter {
+    name   = "tag:Environment"
+    values = ["private"]
+  }
 }
+
 
 # IAM Role for Lambda
 resource "aws_iam_role" "lambda_exec" {
