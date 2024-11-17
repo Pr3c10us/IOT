@@ -1,4 +1,7 @@
-variable "developer_ips" {}
+variable "developer_ips" {
+  type = list(string)
+  default = ["0.0.0.0"]
+}
 
 # Security Group for Lambda Functions
 resource "aws_security_group" "lambda_sg" {
