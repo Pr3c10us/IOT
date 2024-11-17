@@ -25,7 +25,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "intermediate_buck
 
   rule {
     apply_server_side_encryption_by_default {
-      kms_master_key_id = aws_kms_key.mykey.arn
+      kms_master_key_id = aws_kms_key.log_key.arn
       sse_algorithm     = "AES256"
     }
   }
@@ -58,7 +58,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "iot_data_bucket_c
 
   rule {
     apply_server_side_encryption_by_default {
-      kms_master_key_id = aws_kms_key.mykey.arn
+      kms_master_key_id = aws_kms_key.log_key.arn
       sse_algorithm     = "AES256"
     }
   }

@@ -1,5 +1,3 @@
-variable "vpc_id" {}
-
 # Customer Gateway (On-premises)
 resource "aws_customer_gateway" "customer_gw" {
   bgp_asn    = 65000

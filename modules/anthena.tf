@@ -7,6 +7,9 @@ resource "aws_athena_workgroup" "athena_workgroup" {
 resource "aws_grafana_workspace" "grafana" {
   name  = "analytics-grafana"
   role_arn = aws_iam_role.grafana_role.arn
+  account_access_type = "CURRENT_ACCOUNT"
+  authentication_providers = ["SAML"]
+  permission_type = "SERVICE_MANAGED"
 }
 
 # IAM Roles and Policies

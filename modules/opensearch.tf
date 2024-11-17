@@ -17,7 +17,7 @@ resource "aws_opensearch_domain" "opensearch" {
       {
         "Effect": "Allow",
         "Principal": {
-          "AWS": "${aws_iam_role.firehose_role.arn}"
+          "AWS": aws_iam_role.firehose_role.arn
         },
         "Action": [
           "es:ESHttpPost",

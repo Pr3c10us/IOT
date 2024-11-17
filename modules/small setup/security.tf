@@ -1,5 +1,4 @@
-variable "vpc_id" {}
-variable "private_subnet_ids" {}
+variable "developer_ips" {}
 
 # Security Group for Lambda Functions
 resource "aws_security_group" "lambda_sg" {

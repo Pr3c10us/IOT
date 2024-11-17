@@ -22,7 +22,7 @@ resource "aws_lambda_function" "post_delivery_lambda" {
   }
 
   vpc_config {
-    subnet_ids         = [aws_subnet.private_subnet_a.id, aws_subnet.private_subnet_b.id, aws_subnet.private_subnet_c.id]
+    subnet_ids         = [aws_subnet.private_subnet.id]
     security_group_ids = [aws_security_group.lambda_sg.id]
   }
 

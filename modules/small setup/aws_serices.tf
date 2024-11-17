@@ -10,12 +10,12 @@ resource "aws_lambda_function" "my_lambda" {
   timeout       = 30
   vpc_config {
     security_group_ids = [var.lambda_security_group_id]
-    subnet_ids         = data.aws_subnet_ids.private.ids
+    subnet_ids         = data.aws_subnet_ids.private.id
   }
 }
 
 data "aws_subnet_ids" "private" {
-  vpc_id = var.vpc_id
+  id = var.vpc_id
 }
 
 # IAM Role for Lambda

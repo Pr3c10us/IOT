@@ -17,10 +17,6 @@ resource "aws_wafv2_web_acl" "waf" {
           uri_path {}
         }
 
-        text_transformations {
-          priority = 0
-          type     = "NONE"
-        }
       }
     }
 
@@ -37,6 +33,6 @@ resource "aws_wafv2_web_acl" "waf" {
 }
 
 resource "aws_wafv2_web_acl_association" "api_gateway_waf" {
-  resource_arn = aws_api_gateway_rest_api.log_api.execution_arn
+  resource_arn = aws_api_gateway_rest_api.iot_api.execution_arn
   web_acl_arn  = aws_wafv2_web_acl.waf.arn
 }

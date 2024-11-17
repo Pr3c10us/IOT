@@ -21,7 +21,7 @@ resource "aws_api_gateway_integration" "lambda_integration" {
   http_method = aws_api_gateway_method.get_method.http_method
   type        = "AWS_PROXY"
   integration_http_method = "POST"
-  uri         = aws_lambda_function.process_iot_data.invoke_arn
+  uri         = aws_lambda_function.post_delivery_lambda.invoke_arn
 }
 
 resource "aws_waf_web_acl" "api_waf" {
@@ -41,16 +41,6 @@ resource "aws_waf_web_acl" "api_waf" {
     override_action {
       type = "NONE"
     }
-    statement {
-      managed_rule_group_statement {
-        name        = "AWSManagedRulesCommonRuleSet"
-        vendor_name = "AWS"
-      }
-    }
-    visibility_config {
-      sampled_requests_enabled = true
-      cloudwatch_metrics_enabled = true
-      metric_name = "WAFRule"
-    }
+    rule_id = ""
   }
 }

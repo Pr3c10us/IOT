@@ -1,21 +1,5 @@
 # iam.tf
 
-# IAM Role for Firehose (Used by Both Firehose Streams)
-resource "aws_iam_role" "firehose_role" {
-  name = "firehose_role"
-
-  assume_role_policy = jsonencode({
-    "Version": "2012-10-17",
-    "Statement": [{
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "firehose.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }]
-  })
-}
-
 # IAM Policy for Firehose
 resource "aws_iam_role_policy" "firehose_policy" {
   name = "firehose_policy"
@@ -35,7 +19,7 @@ resource "aws_iam_role_policy" "firehose_policy" {
         ],
         "Resource": [
           "${aws_s3_bucket.intermediate_bucket.arn}/*",
-          "${aws_s3_bucket.intermediate_bucket.arn}"
+          aws_s3_bucket.intermediate_bucket.arn
         ]
       },
       # S3 Permissions for iot_data_bucket
@@ -49,7 +33,7 @@ resource "aws_iam_role_policy" "firehose_policy" {
         ],
         "Resource": [
           "${aws_s3_bucket.iot_data_bucket.arn}/*",
-          "${aws_s3_bucket.iot_data_bucket.arn}"
+          aws_s3_bucket.iot_data_bucket.arn
         ]
       },
       # OpenSearch Permissions
@@ -73,7 +57,7 @@ resource "aws_iam_role_policy" "firehose_policy" {
         "Action": [
           "lambda:InvokeFunction"
         ],
-        "Resource": "${aws_lambda_function.firehose_transform_lambda.arn}"
+        "Resource": aws_lambda_function.post_delivery_lambda.arn
       },
       # Lambda Permissions for Post-Delivery Processing
       {
@@ -81,7 +65,7 @@ resource "aws_iam_role_policy" "firehose_policy" {
         "Action": [
           "lambda:InvokeFunction"
         ],
-        "Resource": "${aws_lambda_function.post_delivery_lambda.arn}"
+        "Resource": aws_lambda_function.post_delivery_lambda.arn
       },
       # CloudWatch Logs Permissions
       {
@@ -103,14 +87,14 @@ resource "aws_iam_role_policy" "firehose_policy" {
         ],
         "Resource": [
           "${aws_s3_bucket.intermediate_bucket.arn}/*",
-          "${aws_s3_bucket.intermediate_bucket.arn}"
+          aws_s3_bucket.intermediate_bucket.arn
         ]
       },
       # IAM PassRole
       {
         "Effect": "Allow",
         "Action": "iam:PassRole",
-        "Resource": "${aws_iam_role.firehose_role.arn}"
+        "Resource": aws_iam_role.firehose_role.arn
       }
     ]
   })
@@ -151,7 +135,7 @@ resource "aws_iam_role_policy" "lambda_post_delivery_policy" {
         ],
         "Resource": [
           "${aws_s3_bucket.iot_data_bucket.arn}/*",
-          "${aws_s3_bucket.iot_data_bucket.arn}"
+          aws_s3_bucket.iot_data_bucket.arn
         ]
       },
       # Permissions to write to DynamoDB
@@ -163,7 +147,7 @@ resource "aws_iam_role_policy" "lambda_post_delivery_policy" {
           "dynamodb:GetItem",
           "dynamodb:BatchWriteItem"
         ],
-        "Resource": "${aws_dynamodb_table.data_table.arn}"
+        "Resource": aws_dynamodb_table.data_table.arn
       },
       # CloudWatch Logs Permissions
       {
