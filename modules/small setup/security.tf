@@ -1,6 +1,6 @@
 variable "developer_ips" {
   type = list(string)
-  default = ["0.0.0.0"]
+  default = ["0.0.0.0/0"]
 }
 
 # Security Group for Lambda Functions
