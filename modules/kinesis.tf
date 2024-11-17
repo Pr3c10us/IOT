@@ -51,6 +51,42 @@ resource "aws_kinesis_firehose_delivery_stream" "firehose_s3_and_lambda" {
     role_arn           = aws_iam_role.firehose_role.arn
   }
 
+  extended_s3_configuration {
+    role_arn   = aws_iam_role.firehose_role.arn
+    bucket_arn = aws_s3_bucket.iot_data_bucket.arn
+
+    # Optional: Configure buffering
+    buffering_size = 5  # MB
+    buffering_interval = 300  # seconds
+
+    # Optional: Configure S3 prefix
+    prefix = "raw-data/year=!{timestamp:yyyy}/month=!{timestamp:MM}/day=!{timestamp:dd}/hour=!{timestamp:HH}/"
+
+    # Optional: Enable compression
+    compression_format = "GZIP"
+
+    # Optional: Add Lambda processing
+    processing_configuration {
+      enabled = true
+
+      processors {
+        type = "Lambda"
+
+        parameters {
+          parameter_name  = "LambdaArn"
+          parameter_value = "${aws_lambda_function.post_delivery_lambda.arn}:$LATEST"
+        }
+      }
+    }
+
+    # Required: CloudWatch logging
+    cloudwatch_logging_options {
+      enabled         = true
+      log_group_name  = "/aws/kinesisfirehose/firehose-to-s3-and-lambda"
+      log_stream_name = "S3Delivery"
+    }
+  }
+
   tags = {
     Environment = "Production"
     ManagedBy   = "Terraform"
